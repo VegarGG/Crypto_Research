@@ -12,6 +12,7 @@ We develop a systematic approach to forecast Bitcoin market behavior using histo
 • ArcticDB for efficient time-series storage
 
 # Directory Structure
+```bash
 /data/              # Cleaned and raw datasets
 /features/          # Feature engineering scripts and outputs
 /models/            # Trained models and evaluation metrics
@@ -20,3 +21,4 @@ We develop a systematic approach to forecast Bitcoin market behavior using histo
 notebooks/          # Jupyter notebooks for EDA and experiments
 README.md           # Project overview and documentation
 requirements.txt    # Python dependencies
+```
