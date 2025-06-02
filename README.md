@@ -5,10 +5,15 @@ This repository contains the full pipeline for a quantitative research project f
 We develop a systematic approach to forecast Bitcoin market behavior using historical OHLCV data and time-series features. The project leverages Python-based tools for data processing, machine learning model training, and strategy evaluation.
 ## Core components include / planned:
 • Real-time and historical data collection (Planned)
+
 • Data cleaning and transformation
+
 • Feature engineering
+
 • Regression and classification (Planned) modeling using PyCaret
+
 • Strategy development and backtesting (Planned)
+
 • ArcticDB for efficient time-series storage
 
 # Directory Structure
