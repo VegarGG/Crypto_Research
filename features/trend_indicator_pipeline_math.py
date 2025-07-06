@@ -237,3 +237,65 @@ class MomentumIndicatorPipeline:
         
         return df
 
+# Volatility Indicator Pipeline
+class VolatilityIndicatorPipeline_math:
+    def __init__(self, lib_name='volatility_indicators', store_path='arctic_store'):
+        self.arctic = Arctic(store_path)
+        if lib_name not in self.arctic.list_libraries():
+            self.arctic.create_library(lib_name)
+        self.library = self.arctic[lib_name]
+
+    def compute_bollinger_bands(self, df, days=20, std=2):
+        window = days * 1440
+        ma = df['Close'].rolling(window=window).mean()
+        rolling_std = df['Close'].rolling(window=window).std(ddof=0)
+
+        df[f'bb_mid_{days}d'] = ma
+        df[f'bb_upper_{days}d'] = ma + std * rolling_std
+        df[f'bb_lower_{days}d'] = ma - std * rolling_std
+        return df
+
+    def compute_atr(self, df, days=14):
+        window = days * 1440
+        df['tr1'] = df['High'] - df['Low']
+        df['tr2'] = abs(df['High'] - df['Close'].shift(1))
+        df['tr3'] = abs(df['Low'] - df['Close'].shift(1))
+        df['TR'] = df[['tr1', 'tr2', 'tr3']].max(axis=1)
+
+        df[f'atr_{days}d'] = df['TR'].ewm(alpha=1/window, adjust=False).mean()
+
+        # Drop intermediate columns
+        df.drop(columns=['tr1', 'tr2', 'tr3', 'TR'], inplace=True)
+        return df
+
+    def plot_indicators(self, df, bb_days=20, atr_days=14):
+        # Bollinger Bands
+        plt.figure(figsize=(14, 6))
+        plt.plot(df.index, df['Close'], label='Close Price', alpha=0.6)
+        plt.plot(df.index, df[f'bb_mid_{bb_days}d'], label='BB Mid')
+        plt.plot(df.index, df[f'bb_upper_{bb_days}d'], label='BB Upper', linestyle='--', color='red')
+        plt.plot(df.index, df[f'bb_lower_{bb_days}d'], label='BB Lower', linestyle='--', color='green')
+        plt.title(f'Bollinger Bands ({bb_days}d)')
+        plt.xlabel('Timestamp'); plt.ylabel('Price')
+        plt.legend(); plt.grid(); plt.tight_layout(); plt.show()
+
+        # ATR
+        plt.figure(figsize=(14, 4))
+        plt.plot(df.index, df[f'atr_{atr_days}d'], label=f'ATR {atr_days}d', color='purple')
+        plt.title(f'Average True Range (ATR {atr_days}d)')
+        plt.xlabel('Timestamp'); plt.ylabel('ATR')
+        plt.legend(); plt.grid(); plt.tight_layout(); plt.show()
+
+    def run(self, df: pd.DataFrame, symbol: str, bb_days_list=[20], atr_days_list=[14]):
+        df = df.copy()
+
+        for d in bb_days_list:
+            df = self.compute_bollinger_bands(df, days=d)
+        for d in atr_days_list:
+            df = self.compute_atr(df, days=d)
+
+        self.library.write(symbol, df)
+        print(f"[INFO] Written volatility indicators (math) for {symbol} to ArcticDB")
+
+        self.plot_indicators(df, bb_days=bb_days_list[0], atr_days=atr_days_list[0])
+        return df
