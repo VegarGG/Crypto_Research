@@ -18,7 +18,7 @@ from arcticdb import Arctic
 DB_PATH = '/Users/zway/Desktop/BTC_Project/DB'
 
 # Moving average indicator pipeline
-class MovingAveragePipeline:
+class TrendIndicatorPipeline:
     def __init__(self, lib_name='trend_indicators', store_path='arctic_store'):
         # connect to ArcticDB
         self.arctic = Arctic(store_path)
@@ -26,20 +26,20 @@ class MovingAveragePipeline:
             self.arctic.create_library(lib_name)
         self.library = self.arctic[lib_name]
 
-    def compute_sma(self, df, days=7):
-        window = days * 1440
+    def compute_sma(self, df, days=7, minute_data=True):
+        window = days * 1440 if minute_data else days
         sma = SMAIndicator(close=df['Close'], window=window)
         df[f'sma_{days}d'] = sma.sma_indicator()
         return df
 
-    def compute_ema(self, df, days=7):
-        span = days * 1440
+    def compute_ema(self, df, days=7, minute_data=True):
+        span = days * 1440 if minute_data else days
         ema = EMAIndicator(close=df['Close'], window=span)
         df[f'ema_{days}d'] = ema.ema_indicator()
         return df
 
-    def compute_adx(self, df, days=14):
-        window = days * 1440
+    def compute_adx(self, df, days=14, minute_data=True):
+        window = days * 1440 if minute_data else days
         adx = ADXIndicator(high=df['High'], low=df['Low'], close=df['Close'], window=window)
         df[f'adx_{days}d'] = adx.adx()
         return df
@@ -105,24 +105,24 @@ class MomentumIndicatorPipeline:
             self.arctic.create_library(lib_name)
         self.library = self.arctic[lib_name]
 
-    def compute_rsi(self, df, days=14):
-        window = days * 1440
+    def compute_rsi(self, df, days=14, minute_data=True):
+        window = days * 1440 if minute_data else days
         rsi = RSIIndicator(close=df['Close'], window=window)
         df[f'rsi_{days}d'] = rsi.rsi()
         return df
 
-    def compute_stochastic(self, df, days=14, smooth_days=3):
-        window = days * 1440
+    def compute_stochastic(self, df, days=14, smooth_days=3, minute_data=True):
+        window = days * 1440 if minute_data else days
         smooth_window = smooth_days * 1440
         stoch = StochasticOscillator(high=df['High'], low=df['Low'], close=df['Close'], window=window, smooth_window=smooth_window)
         df[f'stoch_k_{days}d'] = stoch.stoch()
         df[f'stoch_d_{days}d'] = stoch.stoch_signal()
         return df
 
-    def compute_macd(self, df, fast_days=12, slow_days=26, signal_days=9):
-        fast = fast_days * 1440
-        slow = slow_days * 1440
-        signal = signal_days * 1440
+    def compute_macd(self, df, fast_days=12, slow_days=26, signal_days=9, minute_data=True):
+        fast = fast_days * 1440 if minute_data else fast_days
+        slow = slow_days * 1440 if minute_data else slow_days
+        signal = signal_days * 1440 if minute_data else signal_days
         macd = MACD(close=df['Close'], window_fast=fast, window_slow=slow, window_sign=signal)
         df['macd'] = macd.macd()
         df['macd_signal'] = macd.macd_signal()
@@ -186,16 +186,16 @@ class VolatilityIndicatorPipeline:
             self.arctic.create_library(lib_name)
         self.library = self.arctic[lib_name]
 
-    def compute_bollinger_bands(self, df, days=20, std=2):
-        window = days * 1440
+    def compute_bollinger_bands(self, df, days=20, std=2, minute_data=True):
+        window = days * 1440 if minute_data else days
         bb = BollingerBands(close=df['Close'], window=window, window_dev=std)
         df[f'bb_mid_{days}d'] = bb.bollinger_mavg()
         df[f'bb_upper_{days}d'] = bb.bollinger_hband()
         df[f'bb_lower_{days}d'] = bb.bollinger_lband()
         return df
 
-    def compute_atr(self, df, days=14):
-        window = days * 1440
+    def compute_atr(self, df, days=14, minute_data=True):
+        window = days * 1440 if minute_data else days
         atr = AverageTrueRange(high=df['High'], low=df['Low'], close=df['Close'], window=window)
         df[f'atr_{days}d'] = atr.average_true_range()
         return df
@@ -239,8 +239,8 @@ class CorrelationIndicatorPipeline:
             self.arctic.create_library(lib_name)
         self.library = self.arctic[lib_name]
 
-    def compute_rolling_correlation(self, df1, df2, col1='BTC_Close', col2='SP500_Close', days=7):
-        window = days
+    def compute_rolling_correlation(self, df1, df2, col1='BTC_Close', col2='SP500_Close', days=7, minute_data=True):
+        window = days * 1440 if minute_data else days
         merged = pd.merge(df1[[col1]], df2[[col2]], left_index=True, right_index=True)
 
         merged[f'corr_{days}d'] = merged[col1].rolling(window=window).corr(merged[col2])
@@ -309,11 +309,11 @@ class FractalDimensionPipeline:
 
         return self.count_crossings_vectorized(prices, lower_bands, upper_bands)
 
-    def apply_fd(self, df, days=7):
+    def apply_fd(self, df, days=7, minute_data=True):
         df = df.copy()
         df['mid'] = (df['High'] + df['Low']) / 2
 
-        window = days  # assume daily frequency
+        window = days * 1440 if minute_data else days
         fd_series = df['mid'].rolling(window=window).apply(lambda x: self.compute_keltner_fd(df.loc[x.index]), raw=False)
 
         df[f'fd_{days}d'] = fd_series / 1000  # normalize to [0, 1]
