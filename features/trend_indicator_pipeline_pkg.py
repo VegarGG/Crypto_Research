@@ -241,10 +241,14 @@ class CorrelationIndicatorPipeline:
 
     def compute_rolling_correlation(self, df1, df2, col1='BTC_Close', col2='SP500_Close', days=7, minute_data=True):
         window = days * 1440 if minute_data else days
-        merged = pd.merge(df1[[col1]], df2[[col2]], left_index=True, right_index=True)
 
-        merged[f'corr_{days}d'] = merged[col1].rolling(window=window).corr(merged[col2])
-        return merged[[f'corr_{days}d']]
+        # merge only the needed columns
+        df_corr = pd.merge(df1[[col1]], df2[[col2]], left_index=True, right_index=True)
+        corr_series = df_corr[col1].rolling(window=window).corr(df_corr[col2])
+
+        # merge the result back into df1 without dropping other features
+        df1[f'corr_{days}d'] = corr_series
+        return df1
 
     def plot_correlation(self, df, days=7):
         plt.figure(figsize=(14, 4))
