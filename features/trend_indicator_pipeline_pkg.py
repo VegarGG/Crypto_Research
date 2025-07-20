@@ -230,3 +230,112 @@ class VolatilityIndicatorPipeline:
 
         self.plot_indicators(df, bb_days=bb_days_list[0], atr_days=atr_days_list[0])
         return df
+
+# Correlation Indicator Pipeline
+class CorrelationIndicatorPipeline:
+    def __init__(self, lib_name='correlation_indicators', store_path='arctic_store'):
+        self.arctic = Arctic(store_path)
+        if lib_name not in self.arctic.list_libraries():
+            self.arctic.create_library(lib_name)
+        self.library = self.arctic[lib_name]
+
+    def compute_rolling_correlation(self, df1, df2, col1='BTC_Close', col2='SP500_Close', days=7):
+        window = days
+        merged = pd.merge(df1[[col1]], df2[[col2]], left_index=True, right_index=True)
+
+        merged[f'corr_{days}d'] = merged[col1].rolling(window=window).corr(merged[col2])
+        return merged[[f'corr_{days}d']]
+
+    def plot_correlation(self, df, days=7):
+        plt.figure(figsize=(14, 4))
+        plt.plot(df.index, df[f'corr_{days}d'], label=f'Rolling Corr {days}d', color='teal')
+        plt.axhline(0, linestyle='--', color='gray')
+        plt.title(f'BTC vs SP500 {days}-day Rolling Correlation')
+        plt.xlabel('Date'); plt.ylabel('Correlation')
+        plt.legend(); plt.grid(); plt.tight_layout(); plt.show()
+
+    def run(self, df_btc, df_sp500, symbol: str, days_list=[7], col1='Close', col2='Close'):
+        df_btc = df_btc.copy()
+        df_sp500 = df_sp500.copy()
+        output_df = None
+
+        for d in days_list:
+            result = self.compute_rolling_correlation(df_btc, df_sp500, col1=col1, col2=col2, days=d)
+            if output_df is None:
+                output_df = result
+            else:
+                output_df = output_df.join(result, how='outer')
+
+        # Store to ArcticDB
+        self.library.write(symbol, output_df)
+        print(f'[INFO] Written rolling correlation indicators for {symbol} to ArcticDB')
+
+        # Plot only the first correlation (e.g., 7-day)
+        self.plot_correlation(output_df, days=days_list[0])
+        return output_df
+
+# Fractal Dimension Indicator Pipeline    
+class FractalDimensionPipeline:
+    def __init__(self, lib_name='fractal_indicators', store_path='arctic_store'):
+        self.arctic = Arctic(store_path)
+        if lib_name not in self.arctic.list_libraries():
+            self.arctic.create_library(lib_name)
+        self.library = self.arctic[lib_name]
+
+    @staticmethod
+    def count_crossings_vectorized(prices, lower_bands, upper_bands):
+        p1, p2 = prices[:-1], prices[1:]
+        p1_matrix, p2_matrix = p1[None, :], p2[None, :]
+        lower_matrix, upper_matrix = lower_bands[:, None], upper_bands[:, None]
+
+        cross_up_lower = (p1_matrix < lower_matrix) & (lower_matrix < p2_matrix)
+        cross_down_lower = (p1_matrix > lower_matrix) & (lower_matrix > p2_matrix)
+        cross_up_upper = (p1_matrix < upper_matrix) & (upper_matrix < p2_matrix)
+        cross_down_upper = (p1_matrix > upper_matrix) & (upper_matrix > p2_matrix)
+
+        crossing = cross_down_lower | cross_down_upper | cross_up_lower | cross_up_upper
+        return crossing.sum()
+
+    def compute_keltner_fd(self, df_window):
+        if df_window.shape[0] < 3:
+            return np.nan
+
+        prices = df_window['mid'].values
+        mean_price = prices.mean()
+        n_range = np.arange(1, 1001)
+        deviations = n_range * 0.00001 * mean_price
+        upper_bands = mean_price + deviations
+        lower_bands = mean_price - deviations
+
+        return self.count_crossings_vectorized(prices, lower_bands, upper_bands)
+
+    def apply_fd(self, df, days=7):
+        df = df.copy()
+        df['mid'] = (df['High'] + df['Low']) / 2
+
+        window = days  # assume daily frequency
+        fd_series = df['mid'].rolling(window=window).apply(lambda x: self.compute_keltner_fd(df.loc[x.index]), raw=False)
+
+        df[f'fd_{days}d'] = fd_series / 1000  # normalize to [0, 1]
+        df.drop(columns=['mid'], inplace=True)
+        return df
+
+    def plot_fd(self, df, days=7):
+        plt.figure(figsize=(14, 4))
+        plt.plot(df.index, df[f'fd_{days}d'], label=f'Fractal Dimension {days}d', color='darkorange')
+        plt.title(f'Fractal Dimension (Keltner Band) - {days} day window')
+        plt.xlabel('Date'); plt.ylabel('Normalized FD')
+        plt.legend(); plt.grid(); plt.tight_layout(); plt.show()
+
+    def run(self, df, symbol='BTC_FD', days_list=[7]):
+        df = df.copy()
+        df.index = pd.to_datetime(df.index)
+
+        for d in days_list:
+            df = self.apply_fd(df, days=d)
+
+        self.library.write(symbol, df)
+        print(f"[INFO] Written fractal dimension indicators for {symbol} to ArcticDB")
+
+        self.plot_fd(df, days=days_list[0])
+        return df
