@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+# NO EMOJI! DO NOT USE EMOJI IN ANY CODE/COMMENTS/DOCUMENTS/GIT COMMIT
+
 ## Project Overview
 
 - **Purpose**: Quantitative analysis and trading models for cryptocurrency markets

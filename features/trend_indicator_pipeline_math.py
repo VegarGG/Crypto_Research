@@ -6,14 +6,25 @@ import matplotlib.pyplot as plt
 from arcticdb.version_store.helper import ArcticMemoryConfig
 from arcticdb import Arctic
 
-# DB configuration
-DB_PATH = '/Users/zway/Desktop/BTC_Project/DB'
+# Import adaptive configuration
+try:
+    from config import config, ARCTIC_URI
+except ImportError:
+    # Fallback for backward compatibility
+    import os
+    import pathlib
+    project_root = pathlib.Path(__file__).parent.parent
+    arctic_store = project_root / 'arctic_store'
+    arctic_store.mkdir(parents=True, exist_ok=True)
+    ARCTIC_URI = f"lmdb://{arctic_store}"
 
 
 # Moving Average Pipeline, constructed by using math formula
 class MovingAveragePipeline:
-    def __init__(self, lib_name='trend_indicators', store_path='arctic_store'):
-        # connect to ArcticDB
+    def __init__(self, lib_name='trend_indicators', store_path=None):
+        # connect to ArcticDB with adaptive path
+        if store_path is None:
+            store_path = ARCTIC_URI
         self.arctic = Arctic(store_path)
         if lib_name not in self.arctic.list_libraries():
             self.arctic.create_library(lib_name)
@@ -118,8 +129,10 @@ class MovingAveragePipeline:
 
 # Momentum Indicator Pipeline
 class MomentumIndicatorPipeline:
-    def __init__(self, lib_name='momentum_indicators', store_path='arctic_store'):
-        # connect to ArcticDB
+    def __init__(self, lib_name='momentum_indicators', store_path=None):
+        # connect to ArcticDB with adaptive path
+        if store_path is None:
+            store_path = ARCTIC_URI
         self.arctic = Arctic(store_path)
         if lib_name not in self.arctic.list_libraries():
             self.arctic.create_library(lib_name)
@@ -239,7 +252,9 @@ class MomentumIndicatorPipeline:
 
 # Volatility Indicator Pipeline
 class VolatilityIndicatorPipeline_math:
-    def __init__(self, lib_name='volatility_indicators', store_path='arctic_store'):
+    def __init__(self, lib_name='volatility_indicators', store_path=None):
+        if store_path is None:
+            store_path = ARCTIC_URI
         self.arctic = Arctic(store_path)
         if lib_name not in self.arctic.list_libraries():
             self.arctic.create_library(lib_name)

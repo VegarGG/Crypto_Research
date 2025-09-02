@@ -1,1 +1,19 @@
 strategy/1year_btc_trade_with_signals.csv
+
+# Large data files
+*.csv
+*.log
+logs.log
+
+# ArcticDB storage (too large for GitHub)
+arctic_store/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+Crypto_Research/
+
+# Temp files
+nul
