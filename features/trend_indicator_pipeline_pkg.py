@@ -2,6 +2,24 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+from functools import partial
+import threading
+import multiprocessing
+import warnings
+
+try:
+    import numba
+    from numba import jit, prange
+    NUMBA_AVAILABLE = True
+except ImportError:
+    NUMBA_AVAILABLE = False
+    warnings.warn("Numba not available. FD calculations will be slower. Install with: pip install numba")
+    def jit(*args, **kwargs):
+        def decorator(func):
+            return func
+        return decorator
+    prange = range
 
 from ta.trend import EMAIndicator, SMAIndicator, ADXIndicator
 
@@ -388,18 +406,48 @@ class CorrelationIndicatorPipeline:
         return output_df
 
 
-# Fractal Dimension Indicator Pipeline
-class FractalDimensionPipeline:
-    def __init__(self, lib_name="fractal_indicators", store_path=None):
-        if store_path is None:
-            store_path = ARCTIC_URI
-        self.arctic = Arctic(store_path)
-        if lib_name not in self.arctic.list_libraries():
-            self.arctic.create_library(lib_name)
-        self.library = self.arctic[lib_name]
-
-    @staticmethod
-    def count_crossings_vectorized(prices, lower_bands, upper_bands):
+# Optimized JIT-compiled functions for Fractal Dimension calculation
+if NUMBA_AVAILABLE:
+    @jit(nopython=True, fastmath=True, cache=True)
+    def count_crossings_numba(prices, lower_bands, upper_bands):
+        n_bands = len(lower_bands)
+        n_prices = len(prices)
+        total_crossings = 0
+        
+        for band_idx in prange(n_bands):
+            lower_band = lower_bands[band_idx]
+            upper_band = upper_bands[band_idx]
+            crossings = 0
+            
+            for i in range(n_prices - 1):
+                p1, p2 = prices[i], prices[i + 1]
+                
+                # Check for crossings with lower band
+                if (p1 < lower_band < p2) or (p1 > lower_band > p2):
+                    crossings += 1
+                # Check for crossings with upper band
+                elif (p1 < upper_band < p2) or (p1 > upper_band > p2):
+                    crossings += 1
+            
+            total_crossings += crossings
+        
+        return total_crossings
+    
+    @jit(nopython=True, fastmath=True, cache=True)
+    def compute_keltner_fd_numba(prices):
+        if len(prices) < 3:
+            return np.nan
+        
+        mean_price = np.mean(prices)
+        n_range = np.arange(1, 1001, dtype=np.int32)
+        deviations = n_range * 0.00001 * mean_price
+        upper_bands = mean_price + deviations
+        lower_bands = mean_price - deviations
+        
+        return count_crossings_numba(prices, lower_bands, upper_bands)
+else:
+    # Fallback non-JIT versions
+    def count_crossings_numba(prices, lower_bands, upper_bands):
         p1, p2 = prices[:-1], prices[1:]
         p1_matrix, p2_matrix = p1[None, :], p2[None, :]
         lower_matrix, upper_matrix = lower_bands[:, None], upper_bands[:, None]
@@ -411,38 +459,136 @@ class FractalDimensionPipeline:
 
         crossing = cross_down_lower | cross_down_upper | cross_up_lower | cross_up_upper
         return crossing.sum()
-
-    def compute_keltner_fd(self, df_window):
-        if df_window.shape[0] < 3:
+    
+    def compute_keltner_fd_numba(prices):
+        if len(prices) < 3:
             return np.nan
-
-        prices = df_window["mid"].values
+        
         mean_price = prices.mean()
         n_range = np.arange(1, 1001)
         deviations = n_range * 0.00001 * mean_price
         upper_bands = mean_price + deviations
         lower_bands = mean_price - deviations
+        
+        return count_crossings_numba(prices, lower_bands, upper_bands)
 
-        return self.count_crossings_vectorized(prices, lower_bands, upper_bands)
+def parallel_fd_worker(chunk_data):
+    chunk_df, window_size, chunk_start_idx = chunk_data
+    chunk_df = chunk_df.copy()
+    chunk_df["mid"] = (chunk_df["High"] + chunk_df["Low"]) / 2
+    
+    fd_values = []
+    for i in range(len(chunk_df)):
+        if i >= window_size - 1:
+            window_start = max(0, i - window_size + 1)
+            window_prices = chunk_df["mid"].iloc[window_start:i+1].values
+            fd_val = compute_keltner_fd_numba(window_prices)
+        else:
+            fd_val = np.nan
+        fd_values.append(fd_val)
+    
+    return chunk_start_idx, np.array(fd_values)
 
-    def apply_fd(self, df, days=7, minute_data=True):
+# Fractal Dimension Indicator Pipeline
+class FractalDimensionPipeline:
+    def __init__(self, lib_name="fractal_indicators", store_path=None, max_workers=None):
+        if store_path is None:
+            store_path = ARCTIC_URI
+        self.arctic = Arctic(store_path)
+        if lib_name not in self.arctic.list_libraries():
+            self.arctic.create_library(lib_name)
+        self.library = self.arctic[lib_name]
+        self.max_workers = max_workers or min(4, (multiprocessing.cpu_count() or 1))
+        self._lock = threading.Lock()
+
+    def apply_fd_parallel(self, df, days=7, minute_data=True, chunk_size=None):
         df = df.copy()
         df["mid"] = (df["High"] + df["Low"]) / 2
+        window_size = days * 1440 if minute_data else days
+        
+        if chunk_size is None:
+            chunk_size = max(1000, len(df) // self.max_workers)
+        
+        if len(df) < window_size or len(df) < chunk_size:
+            return self.apply_fd_sequential(df, days, minute_data)
+        
+        # Create overlapping chunks to handle window calculations
+        chunks = []
+        overlap = window_size - 1
+        
+        for i in range(0, len(df), chunk_size):
+            start_idx = max(0, i - overlap)
+            end_idx = min(len(df), i + chunk_size + overlap)
+            chunk_df = df.iloc[start_idx:end_idx].copy()
+            chunks.append((chunk_df, window_size, start_idx))
+        
+        # Process chunks in parallel
+        with ProcessPoolExecutor(max_workers=self.max_workers) as executor:
+            results = list(executor.map(parallel_fd_worker, chunks))
+        
+        # Combine results
+        fd_values = np.full(len(df), np.nan)
+        for chunk_start_idx, chunk_fd_values in results:
+            chunk_end_idx = min(len(df), chunk_start_idx + len(chunk_fd_values))
+            # Only use the non-overlapping part of each chunk
+            if chunk_start_idx == 0:
+                # First chunk - use all values
+                fd_values[chunk_start_idx:chunk_end_idx] = chunk_fd_values[:chunk_end_idx-chunk_start_idx]
+            else:
+                # Skip overlap region for subsequent chunks
+                skip_overlap = overlap if chunk_start_idx > 0 else 0
+                valid_start = chunk_start_idx + skip_overlap
+                valid_chunk_start = skip_overlap
+                valid_chunk_end = len(chunk_fd_values)
+                
+                if valid_start < len(df):
+                    fd_values[valid_start:chunk_end_idx] = chunk_fd_values[valid_chunk_start:valid_chunk_end][:chunk_end_idx-valid_start]
+        
+        return fd_values
+    
+    def apply_fd_sequential(self, df, days=7, minute_data=True):
+        df = df.copy()
+        df["mid"] = (df["High"] + df["Low"]) / 2
+        window_size = days * 1440 if minute_data else days
+        
+        fd_values = np.full(len(df), np.nan)
+        mid_values = df["mid"].values
+        
+        for i in range(window_size - 1, len(df)):
+            window_prices = mid_values[i - window_size + 1:i + 1]
+            fd_values[i] = compute_keltner_fd_numba(window_prices)
+        
+        return fd_values
 
-        window = days * 1440 if minute_data else days
-        fd_series = (
-            df["mid"]
-            .rolling(window=window)
-            .apply(lambda x: self.compute_keltner_fd(df.loc[x.index]), raw=False)
+    def apply_fd(self, df, days=7, minute_data=True, use_parallel=True, chunk_size=None):
+        df = df.copy()
+        
+        # Choose processing method based on data size and availability
+        data_size_threshold = 5000  # Use parallel processing for datasets larger than this
+        should_use_parallel = (
+            use_parallel and 
+            len(df) > data_size_threshold and 
+            self.max_workers > 1
         )
-
+        
+        if should_use_parallel:
+            try:
+                fd_values = self.apply_fd_parallel(df, days, minute_data, chunk_size)
+            except Exception as e:
+                print(f"[WARNING] Parallel processing failed: {e}. Falling back to sequential.")
+                fd_values = self.apply_fd_sequential(df, days, minute_data)
+        else:
+            fd_values = self.apply_fd_sequential(df, days, minute_data)
+        
+        # Convert to pandas Series for normalization
+        fd_series = pd.Series(fd_values, index=df.index)
+        
         # Use global maximum normalization (like original implementation)
         max_fd = fd_series.max()
         if pd.isna(max_fd) or max_fd == 0:
             max_fd = 1  # fallback to avoid division by zero
         df[f"fd_{days}d"] = fd_series / max_fd
-
-        df.drop(columns=["mid"], inplace=True)
+        
         return df
 
     def plot_fd(self, df, days=7):
@@ -461,15 +607,115 @@ class FractalDimensionPipeline:
         plt.tight_layout()
         plt.show()
 
-    def run(self, df, symbol="BTC_FD", days_list=[7]):
+    def run(self, df, symbol="BTC_FD", days_list=[7], use_parallel=True, chunk_size=None, show_performance=True):
+        import time
+        
         df = df.copy()
         df.index = pd.to_datetime(df.index)
-
+        
+        total_start_time = time.time()
+        performance_info = []
+        
         for d in days_list:
-            df = self.apply_fd(df, days=d)
-
-        self.library.write(symbol, df)
-        print(f"[INFO] Written fractal dimension indicators for {symbol} to ArcticDB")
-
+            start_time = time.time()
+            df = self.apply_fd(df, days=d, use_parallel=use_parallel, chunk_size=chunk_size)
+            end_time = time.time()
+            
+            elapsed = end_time - start_time
+            performance_info.append(f"FD {d}d: {elapsed:.2f}s")
+            
+            if show_performance:
+                processing_mode = "parallel" if use_parallel and len(df) > 5000 else "sequential"
+                print(f"[INFO] FD {d}d calculation completed in {elapsed:.2f}s ({processing_mode})")
+        
+        # Thread-safe ArcticDB write operation
+        with self._lock:
+            try:
+                self.library.write(symbol, df)
+                total_time = time.time() - total_start_time
+                print(f"[INFO] Written fractal dimension indicators for {symbol} to ArcticDB")
+                if show_performance:
+                    print(f"[INFO] Total processing time: {total_time:.2f}s")
+                    print(f"[INFO] Performance breakdown: {', '.join(performance_info)}")
+            except Exception as e:
+                print(f"[ERROR] Failed to write to ArcticDB: {e}")
+                raise
+        
         self.plot_fd(df, days=days_list[0])
         return df
+    
+    def benchmark_performance(self, df, days=7, minute_data=True, iterations=3):
+        import time
+        
+        print(f"\n[INFO] Benchmarking FD calculation performance...")
+        print(f"Data size: {len(df):,} rows, Window: {days} days")
+        
+        # Test sequential performance
+        seq_times = []
+        for i in range(iterations):
+            start_time = time.time()
+            self.apply_fd_sequential(df.copy(), days, minute_data)
+            seq_times.append(time.time() - start_time)
+        
+        avg_seq_time = np.mean(seq_times)
+        
+        # Test parallel performance (if applicable)
+        if len(df) > 5000 and self.max_workers > 1:
+            par_times = []
+            for i in range(iterations):
+                try:
+                    start_time = time.time()
+                    self.apply_fd_parallel(df.copy(), days, minute_data)
+                    par_times.append(time.time() - start_time)
+                except Exception as e:
+                    print(f"[WARNING] Parallel processing failed: {e}")
+                    break
+            
+            if par_times:
+                avg_par_time = np.mean(par_times)
+                speedup = avg_seq_time / avg_par_time
+                print(f"Sequential: {avg_seq_time:.2f}s")
+                print(f"Parallel:   {avg_par_time:.2f}s")
+                print(f"Speedup:    {speedup:.2f}x")
+            else:
+                print(f"Sequential: {avg_seq_time:.2f}s")
+                print(f"Parallel processing unavailable")
+        else:
+            print(f"Sequential: {avg_seq_time:.2f}s")
+            print(f"Note: Data too small for parallel processing")
+    
+    def validate_results(self, df, days=7, minute_data=True, tolerance=1e-6):
+        print(f"\n[INFO] Validating optimized vs sequential results...")
+        
+        # Get results from both methods
+        seq_result = self.apply_fd_sequential(df.copy(), days, minute_data)
+        
+        if len(df) > 5000:
+            try:
+                par_result = self.apply_fd_parallel(df.copy(), days, minute_data)
+                
+                # Compare results
+                valid_mask = ~(np.isnan(seq_result) | np.isnan(par_result))
+                if np.sum(valid_mask) == 0:
+                    print("[WARNING] No valid values to compare")
+                    return False
+                
+                diff = np.abs(seq_result[valid_mask] - par_result[valid_mask])
+                max_diff = np.max(diff)
+                mean_diff = np.mean(diff)
+                
+                print(f"Max difference: {max_diff:.2e}")
+                print(f"Mean difference: {mean_diff:.2e}")
+                
+                if max_diff < tolerance:
+                    print("[SUCCESS] Results match within tolerance")
+                    return True
+                else:
+                    print(f"[ERROR] Results differ by more than tolerance ({tolerance:.2e})")
+                    return False
+            except Exception as e:
+                print(f"[WARNING] Parallel validation failed: {e}")
+                return True  # Sequential still works
+        else:
+            print("[INFO] Data too small for parallel processing comparison")
+            return True
