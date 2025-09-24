@@ -1,0 +1,1334 @@
+================================================================================
+KNN DECISION ANALYSIS FOR STATE CHANGE SIGNALS
+================================================================================
+ Analyzing decision logic for state change signals...
+
+============================================================
+ANALYZING 2023-01 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_01
+Loaded from ArcticDB - Data shape: (38013, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 38,013 records for decision analysis
+ Found 4 state changes in 2023-01
+
+--- STATE CHANGE 1: SELL → BUY ---
+Time: 2023-01-11 22:43:00
+Price: $17,543.50
+Confidence: 1.000
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+  Not enough data points in month for analysis
+ Could not analyze this decision
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: BUY → SELL ---
+Time: 2023-01-20 22:20:00
+Price: $22,529.50
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+  Not enough data points in month for analysis
+ Could not analyze this decision
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: SELL → BUY ---
+Time: 2023-01-25 04:32:00
+Price: $22,617.80
+Confidence: 1.000
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+  Not enough data points in month for analysis
+ Could not analyze this decision
+--------------------------------------------------------------------------------
+
+============================================================
+ANALYZING 2023-02 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_02
+Loaded from ArcticDB - Data shape: (38508, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 38,508 records for decision analysis
+ Found 24 state changes in 2023-02
+
+--- STATE CHANGE 1: SELL → BUY ---
+Time: 2023-02-02 00:52:00
+Price: $24,127.40
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+ Error in neighbor analysis: Input X contains NaN.
+NearestNeighbors does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+ Could not analyze this decision
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: BUY → SELL ---
+Time: 2023-02-02 01:05:00
+Price: $24,086.80
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+ Error in neighbor analysis: Input X contains NaN.
+NearestNeighbors does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+ Could not analyze this decision
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: SELL → BUY ---
+Time: 2023-02-04 23:38:00
+Price: $23,300.00
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+ Error in neighbor analysis: Input X contains NaN.
+NearestNeighbors does not accept missing values encoded as NaN natively. For supervised learning, you might want to consider sklearn.ensemble.HistGradientBoostingClassifier and Regressor which accept missing values encoded as NaNs natively. Alternatively, it is possible to preprocess the data, for instance by using an imputer transformer in a pipeline or drop samples with missing values. See https://scikit-learn.org/stable/modules/impute.html You can find a list of all estimators that handle NaN values at the following page: https://scikit-learn.org/stable/modules/impute.html#estimators-that-handle-nan-values
+ Could not analyze this decision
+--------------------------------------------------------------------------------
+
+============================================================
+ANALYZING 2023-03 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_03
+Loaded from ArcticDB - Data shape: (43027, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 43,027 records for decision analysis
+ Found 52 state changes in 2023-03
+
+--- STATE CHANGE 1: SELL → BUY ---
+Time: 2023-03-08 09:26:00
+Price: $21,946.30
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-03-08 09:26:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-03-08 09:26      0.000 $21,946.30        1   49.7  -67.563
+   2          2023-03-08 09:33      7.824 $21,947.90        1   49.7  -67.880
+   3          2023-03-08 09:23      9.200 $21,952.00        1   49.7  -67.457
+   4          2023-03-08 09:36      9.763 $21,953.20        1   49.7  -67.933
+   5          2023-03-08 09:24     10.116 $21,954.40        1   49.7  -67.510
+   6          2023-03-08 09:10     10.944 $21,954.70        0   49.7  -66.835
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 5/6
+  DOWN votes: 1/6
+  Local consensus: 83.3%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $21,946.30
+  RSI: 49.70
+  MACD: -67.5627
+  EMA20: $22975.44
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: BUY → SELL ---
+Time: 2023-03-14 13:04:00
+Price: $26,456.20
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR BUY → SELL SIGNAL
+Timestamp: 2023-03-14 13:04:00
+Model Prediction: 0 (DOWN)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-03-14 13:04      0.000 $26,456.20        0   51.0 -284.160
+   2          2023-03-14 13:02    124.596 $26,384.70        0   51.0 -284.721
+   3          2023-03-14 13:03    142.621 $26,341.40        0   50.9 -284.444
+   4          2023-03-14 13:05    151.635 $26,371.20        0   51.0 -283.881
+   5          2023-03-14 13:14    167.325 $26,344.40        1   50.9 -281.413
+   6          2023-03-14 13:06    189.807 $26,302.50        1   50.9 -283.606
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 2/6
+  DOWN votes: 4/6
+  Local consensus: 66.7%
+  Local expectation: DOWN
+  Model prediction: DOWN
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $26,456.20
+  RSI: 50.98
+  MACD: -284.1598
+  EMA20: $22360.31
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: SELL → BUY ---
+Time: 2023-03-14 13:06:00
+Price: $26,302.50
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-03-14 13:06:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-03-14 13:06      0.000 $26,302.50        1   50.9 -283.606
+   2          2023-03-14 13:14     53.003 $26,344.40        1   50.9 -281.413
+   3          2023-03-14 13:10     53.537 $26,311.70        1   50.9 -282.512
+   4          2023-03-14 13:11     59.011 $26,324.70        1   50.9 -282.236
+   5          2023-03-14 13:15     67.432 $26,255.60        1   50.9 -281.142
+   6          2023-03-14 13:03     70.819 $26,341.40        0   50.9 -284.444
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 5/6
+  DOWN votes: 1/6
+  Local consensus: 83.3%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $26,302.50
+  RSI: 50.94
+  MACD: -283.6064
+  EMA20: $22360.86
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+============================================================
+ANALYZING 2023-04 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_04
+Loaded from ArcticDB - Data shape: (40858, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 40,858 records for decision analysis
+ Found 24 state changes in 2023-04
+
+--- STATE CHANGE 1: SELL → BUY ---
+Time: 2023-04-05 16:08:00
+Price: $27,932.90
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-04-05 16:08:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-04-05 16:08      0.002 $27,932.90        1   50.3 1073.342
+   2          2023-04-05 16:42     24.633 $27,932.00        1   50.3 1071.560
+   3          2023-04-05 16:37     30.248 $27,937.70        1   50.3 1071.805
+   4          2023-04-05 16:41     30.713 $27,944.70        1   50.3 1071.610
+   5          2023-04-05 15:27     32.439 $27,947.10        0   50.3 1075.177
+   6          2023-04-05 16:38     34.512 $27,955.70        1   50.3 1071.756
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 5/6
+  DOWN votes: 1/6
+  Local consensus: 83.3%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $27,932.90
+  RSI: 50.26
+  MACD: 1073.3421
+  EMA20: $27195.95
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: BUY → SELL ---
+Time: 2023-04-10 22:03:00
+Price: $29,641.60
+Confidence: 1.000
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR BUY → SELL SIGNAL
+Timestamp: 2023-04-10 22:03:00
+Model Prediction: 0 (DOWN)
+Confidence Score: 1.000
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-04-10 22:03      0.000 $29,641.60        0   50.6  796.858
+   2          2023-04-10 22:22    174.762 $29,591.20        0   50.6  797.876
+   3          2023-04-10 22:30    176.198 $29,606.50        0   50.6  798.337
+   4          2023-04-10 22:06    178.205 $29,563.50        0   50.6  797.026
+   5          2023-04-10 23:00    194.235 $29,617.60        0   50.6  800.105
+   6          2023-04-10 22:21    195.323 $29,554.10        0   50.6  797.819
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 0/6
+  DOWN votes: 6/6
+  Local consensus: 100.0%
+  Local expectation: DOWN
+  Model prediction: DOWN
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $29,641.60
+  RSI: 50.60
+  MACD: 796.8581
+  EMA20: $27554.92
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: SELL → BUY ---
+Time: 2023-04-21 02:46:00
+Price: $28,176.70
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-04-21 02:46:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-04-21 02:46      0.000 $28,176.70        1   49.9  796.795
+   2          2023-04-21 02:25      9.211 $28,175.70        0   49.9  799.213
+   3          2023-04-21 02:54     12.151 $28,186.30        1   49.9  795.887
+   4          2023-04-21 02:51     12.620 $28,183.20        1   49.9  796.227
+   5          2023-04-21 02:50     12.707 $28,185.30        1   49.9  796.340
+   6          2023-04-21 02:12     12.887 $28,175.30        0   49.9  800.688
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 4/6
+  DOWN votes: 2/6
+  Local consensus: 66.7%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $28,176.70
+  RSI: 49.95
+  MACD: 796.7949
+  EMA20: $28902.75
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+============================================================
+ANALYZING 2023-05 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_05
+Loaded from ArcticDB - Data shape: (39593, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 39,593 records for decision analysis
+ Found 108 state changes in 2023-05
+
+--- STATE CHANGE 1: SELL → BUY ---
+Time: 2023-05-01 01:58:00
+Price: $28,460.40
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-05-01 01:58:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-05-01 01:58      0.002 $28,460.40        1   50.0  303.176
+   2          2023-05-01 03:14     16.697 $28,457.50        0   50.0  300.629
+   3          2023-05-01 01:56     24.476 $28,450.80        1   50.0  303.255
+   4          2023-05-01 01:57     29.735 $28,475.30        1   50.0  303.216
+   5          2023-05-01 01:55     32.443 $28,480.40        1   50.0  303.295
+   6          2023-05-01 03:13     33.471 $28,468.80        0   50.0  300.669
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 4/6
+  DOWN votes: 2/6
+  Local consensus: 66.7%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $28,460.40
+  RSI: 50.00
+  MACD: 303.1756
+  EMA20: $28713.75
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: BUY → SELL ---
+Time: 2023-05-01 01:59:00
+Price: $28,486.60
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR BUY → SELL SIGNAL
+Timestamp: 2023-05-01 01:59:00
+Model Prediction: 0 (DOWN)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-05-01 01:59      0.000 $28,486.60        1   50.0  303.137
+   2          2023-05-01 04:38     25.116 $28,483.20        0   50.0  297.647
+   3          2023-05-01 01:57     27.441 $28,475.30        1   50.0  303.216
+   4          2023-05-01 01:53     28.959 $28,504.20        0   50.0  303.374
+   5          2023-05-01 04:44     31.928 $28,474.90        0   50.0  297.422
+   6          2023-05-01 04:46     33.275 $28,473.40        0   50.0  297.344
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 2/6
+  DOWN votes: 4/6
+  Local consensus: 66.7%
+  Local expectation: DOWN
+  Model prediction: DOWN
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $28,486.60
+  RSI: 50.00
+  MACD: 303.1372
+  EMA20: $28713.74
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: SELL → BUY ---
+Time: 2023-05-01 02:00:00
+Price: $28,434.20
+Confidence: 1.000
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-05-01 02:00:00
+Model Prediction: 1 (UP)
+Confidence Score: 1.000
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-05-01 02:00      0.002 $28,434.20        1   50.0  303.096
+   2          2023-05-01 05:36     44.468 $28,447.60        1   50.0  295.624
+   3          2023-05-01 03:15     46.469 $28,426.30        1   50.0  300.587
+   4          2023-05-01 01:58     52.906 $28,460.40        1   50.0  303.176
+   5          2023-05-01 01:55     57.051 $28,480.40        1   50.0  303.295
+   6          2023-05-01 01:52     58.883 $28,472.90        1   50.0  303.411
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 6/6
+  DOWN votes: 0/6
+  Local consensus: 100.0%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $28,434.20
+  RSI: 49.99
+  MACD: 303.0956
+  EMA20: $28713.72
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+============================================================
+ANALYZING 2023-06 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_06
+Loaded from ArcticDB - Data shape: (40938, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 40,938 records for decision analysis
+ Found 60 state changes in 2023-06
+
+--- STATE CHANGE 1: SELL → BUY ---
+Time: 2023-06-12 03:48:00
+Price: $25,764.00
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-06-12 03:48:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-06-12 03:48      0.000 $25,764.00        1   49.7 -388.589
+   2          2023-06-12 03:49      7.959 $25,771.10        1   49.7 -388.611
+   3          2023-06-12 03:12      8.894 $25,768.40        0   49.7 -387.826
+   4          2023-06-12 04:41     11.494 $25,766.00        1   49.7 -389.757
+   5          2023-06-12 04:40     11.784 $25,765.60        1   49.7 -389.735
+   6          2023-06-12 03:15     11.843 $25,773.10        0   49.7 -387.893
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 4/6
+  DOWN votes: 2/6
+  Local consensus: 66.7%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $25,764.00
+  RSI: 49.69
+  MACD: -388.5885
+  EMA20: $26699.21
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: BUY → SELL ---
+Time: 2023-06-12 04:06:00
+Price: $25,736.80
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR BUY → SELL SIGNAL
+Timestamp: 2023-06-12 04:06:00
+Model Prediction: 0 (DOWN)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-06-12 04:06      0.002 $25,736.80        1   49.7 -389.000
+   2          2023-06-12 04:05     12.780 $25,740.70        1   49.7 -388.976
+   3          2023-06-12 03:00     16.888 $25,736.60        0   49.7 -387.555
+   4          2023-06-12 02:57     18.725 $25,737.50        0   49.7 -387.483
+   5          2023-06-12 04:07     20.289 $25,752.10        1   49.7 -389.023
+   6          2023-06-12 02:41     21.263 $25,728.20        0   49.7 -387.061
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 3/6
+  DOWN votes: 3/6
+  Local consensus: 50.0%
+  Local expectation: DOWN
+  Model prediction: DOWN
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $25,736.80
+  RSI: 49.68
+  MACD: -388.9998
+  EMA20: $26698.03
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: SELL → BUY ---
+Time: 2023-06-12 04:09:00
+Price: $25,777.20
+Confidence: 1.000
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-06-12 04:09:00
+Model Prediction: 1 (UP)
+Confidence Score: 1.000
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-06-12 04:09      0.000 $25,777.20        1   49.7 -389.066
+   2          2023-06-12 04:16      3.074 $25,778.20        1   49.7 -389.217
+   3          2023-06-12 04:11      4.029 $25,776.20        1   49.7 -389.109
+   4          2023-06-12 04:15      4.697 $25,773.80        1   49.7 -389.196
+   5          2023-06-12 04:10      5.398 $25,776.20        1   49.7 -389.088
+   6          2023-06-12 04:24      5.567 $25,774.80        1   49.7 -389.387
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 6/6
+  DOWN votes: 0/6
+  Local consensus: 100.0%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $25,777.20
+  RSI: 49.69
+  MACD: -389.0661
+  EMA20: $26697.84
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+============================================================
+ANALYZING 2023-07 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_07
+Loaded from ArcticDB - Data shape: (36111, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 36,111 records for decision analysis
+ Found 20 state changes in 2023-07
+
+--- STATE CHANGE 1: SELL → BUY ---
+Time: 2023-07-08 18:02:00
+Price: $30,176.00
+Confidence: 1.000
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-07-08 18:02:00
+Model Prediction: 1 (UP)
+Confidence Score: 1.000
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-07-08 18:02      0.000 $30,176.00        1   50.2  849.934
+   2          2023-07-08 18:03      8.104 $30,173.90        1   50.2  849.888
+   3          2023-07-08 18:01     10.413 $30,181.40        1   50.2  849.979
+   4          2023-07-08 18:05     11.493 $30,173.20        1   50.2  849.798
+   5          2023-07-08 17:40     12.818 $30,183.70        1   50.2  850.907
+   6          2023-07-08 18:04     12.835 $30,175.90        1   50.2  849.843
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 6/6
+  DOWN votes: 0/6
+  Local consensus: 100.0%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $30,176.00
+  RSI: 50.25
+  MACD: 849.9338
+  EMA20: $29657.21
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: BUY → SELL ---
+Time: 2023-07-09 07:37:00
+Price: $30,232.40
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR BUY → SELL SIGNAL
+Timestamp: 2023-07-09 07:37:00
+Model Prediction: 0 (DOWN)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-07-09 07:37      0.000 $30,232.40        1   50.3  815.626
+   2          2023-07-09 07:40      2.313 $30,231.00        0   50.3  815.505
+   3          2023-07-09 07:44      6.664 $30,232.60        0   50.3  815.343
+   4          2023-07-09 07:46      8.295 $30,231.60        0   50.3  815.262
+   5          2023-07-09 07:49      8.739 $30,231.00        0   50.3  815.142
+   6          2023-07-09 07:41      8.901 $30,227.20        0   50.3  815.464
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 1/6
+  DOWN votes: 5/6
+  Local consensus: 83.3%
+  Local expectation: DOWN
+  Model prediction: DOWN
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $30,232.40
+  RSI: 50.26
+  MACD: 815.6257
+  EMA20: $29687.73
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: SELL → BUY ---
+Time: 2023-07-09 07:56:00
+Price: $30,237.70
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-07-09 07:56:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-07-09 07:56      0.002 $30,237.70        1   50.3  814.861
+   2          2023-07-09 07:58      5.391 $30,238.50        1   50.3  814.781
+   3          2023-07-09 07:57      6.671 $30,237.90        1   50.3  814.821
+   4          2023-07-09 07:53      6.672 $30,233.10        1   50.3  814.981
+   5          2023-07-09 07:54      6.866 $30,233.00        1   50.3  814.941
+   6          2023-07-09 07:55      7.062 $30,233.40        1   50.3  814.901
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 6/6
+  DOWN votes: 0/6
+  Local consensus: 100.0%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $30,237.70
+  RSI: 50.26
+  MACD: 814.8609
+  EMA20: $29688.45
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+============================================================
+ANALYZING 2023-08 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_08
+Loaded from ArcticDB - Data shape: (38461, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 38,461 records for decision analysis
+ Found 32 state changes in 2023-08
+
+--- STATE CHANGE 1: SELL → BUY ---
+Time: 2023-08-22 23:54:00
+Price: $26,010.80
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-08-22 23:54:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-08-22 23:54      0.000 $26,010.80        1   49.2 -794.301
+   2          2023-08-22 23:56      6.303 $26,014.70        1   49.2 -794.429
+   3          2023-08-23 00:02     15.351 $25,999.60        1   49.2 -794.811
+   4          2023-08-22 23:53     18.485 $25,998.30        1   49.2 -794.237
+   5          2023-08-22 23:55     19.528 $26,001.00        1   49.2 -794.365
+   6          2023-08-22 23:41     23.896 $25,990.70        0   49.2 -793.441
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 5/6
+  DOWN votes: 1/6
+  Local consensus: 83.3%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $26,010.80
+  RSI: 49.23
+  MACD: -794.3007
+  EMA20: $28278.25
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: BUY → SELL ---
+Time: 2023-08-23 19:41:00
+Price: $26,700.50
+Confidence: 1.000
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR BUY → SELL SIGNAL
+Timestamp: 2023-08-23 19:41:00
+Model Prediction: 0 (DOWN)
+Confidence Score: 1.000
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-08-23 19:41      0.000 $26,700.50        0   49.5 -839.601
+   2          2023-08-23 19:45     63.261 $26,705.60        0   49.5 -839.641
+   3          2023-08-23 19:53     82.805 $26,688.00        0   49.5 -839.707
+   4          2023-08-23 20:25     95.272 $26,667.90        0   49.5 -840.247
+   5          2023-08-23 20:26     98.370 $26,678.20        0   49.5 -840.257
+   6          2023-08-23 19:43     99.159 $26,682.80        0   49.5 -839.620
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 0/6
+  DOWN votes: 6/6
+  Local consensus: 100.0%
+  Local expectation: DOWN
+  Model prediction: DOWN
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $26,700.50
+  RSI: 49.48
+  MACD: -839.6007
+  EMA20: $28151.02
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: SELL → BUY ---
+Time: 2023-08-23 19:59:00
+Price: $26,590.70
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-08-23 19:59:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-08-23 19:59      0.000 $26,590.70        0   49.4 -839.783
+   2          2023-08-23 20:30     13.944 $26,587.10        1   49.4 -840.315
+   3          2023-08-23 20:41     19.389 $26,588.80        1   49.4 -840.479
+   4          2023-08-23 20:28     19.792 $26,597.40        1   49.4 -840.285
+   5          2023-08-23 20:37     22.805 $26,593.00        1   49.4 -840.420
+   6          2023-08-23 20:39     23.265 $26,602.60        0   49.5 -840.449
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 4/6
+  DOWN votes: 2/6
+  Local consensus: 66.7%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $26,590.70
+  RSI: 49.44
+  MACD: -839.7835
+  EMA20: $28149.18
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+============================================================
+ANALYZING 2023-09 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_09
+Loaded from ArcticDB - Data shape: (42211, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 42,211 records for decision analysis
+ Found 160 state changes in 2023-09
+
+--- STATE CHANGE 1: SELL → BUY ---
+Time: 2023-09-09 12:24:00
+Price: $25,783.90
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-09-09 12:24:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-09-09 12:24      0.002 $25,783.90        1   49.6 -713.402
+   2          2023-09-09 12:23      1.398 $25,783.90        1   49.6 -713.421
+   3          2023-09-09 12:26      3.659 $25,784.90        1   49.6 -713.365
+   4          2023-09-09 12:21      3.940 $25,784.90        0   49.6 -713.440
+   5          2023-09-09 12:25      4.421 $25,787.00        1   49.6 -713.383
+   6          2023-09-09 12:27      4.616 $25,785.30        1   49.6 -713.346
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 5/6
+  DOWN votes: 1/6
+  Local consensus: 83.3%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $25,783.90
+  RSI: 49.63
+  MACD: -713.4022
+  EMA20: $26510.20
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: BUY → SELL ---
+Time: 2023-09-09 13:08:00
+Price: $25,792.80
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR BUY → SELL SIGNAL
+Timestamp: 2023-09-09 13:08:00
+Model Prediction: 0 (DOWN)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-09-09 13:08      0.000 $25,792.80        0   49.6 -712.779
+   2          2023-09-09 13:07      2.761 $25,792.70        0   49.6 -712.798
+   3          2023-09-09 13:10      4.889 $25,794.10        0   49.6 -712.760
+   4          2023-09-09 13:06      8.039 $25,788.90        0   49.6 -712.818
+   5          2023-09-09 13:15      8.055 $25,788.20        0   49.6 -712.662
+   6          2023-09-09 13:11      8.857 $25,798.80        0   49.6 -712.740
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 0/6
+  DOWN votes: 6/6
+  Local consensus: 100.0%
+  Local expectation: DOWN
+  Model prediction: DOWN
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $25,792.80
+  RSI: 49.63
+  MACD: -712.7789
+  EMA20: $26508.54
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: SELL → BUY ---
+Time: 2023-09-09 13:17:00
+Price: $25,782.80
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-09-09 13:17:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-09-09 13:17      0.000 $25,782.80        1   49.6 -712.625
+   2          2023-09-09 13:19      3.468 $25,781.80        1   49.6 -712.587
+   3          2023-09-09 13:20      4.736 $25,780.90        1   49.6 -712.569
+   4          2023-09-09 13:18      4.847 $25,782.60        1   49.6 -712.606
+   5          2023-09-09 13:16      5.680 $25,784.90        0   49.6 -712.643
+   6          2023-09-09 13:22      6.256 $25,780.60        1   49.6 -712.532
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 5/6
+  DOWN votes: 1/6
+  Local consensus: 83.3%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $25,782.80
+  RSI: 49.63
+  MACD: -712.6245
+  EMA20: $26508.14
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+============================================================
+ANALYZING 2023-10 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_10
+Loaded from ArcticDB - Data shape: (44316, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 44,316 records for decision analysis
+ Found 32 state changes in 2023-10
+
+--- STATE CHANGE 1: SELL → BUY ---
+Time: 2023-10-01 15:19:00
+Price: $27,085.70
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-10-01 15:19:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-10-01 15:19      0.000 $27,085.70        1   50.2   25.083
+   2          2023-10-01 15:00      4.519 $27,087.80        0   50.2   24.564
+   3          2023-10-01 15:03      5.805 $27,089.10        0   50.2   24.646
+   4          2023-10-01 15:24      8.257 $27,086.40        1   50.2   25.217
+   5          2023-10-01 14:52      9.472 $27,087.60        0   50.2   24.352
+   6          2023-10-01 15:22     10.914 $27,088.90        1   50.2   25.163
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 3/6
+  DOWN votes: 3/6
+  Local consensus: 50.0%
+  Local expectation: DOWN
+  Model prediction: UP
+    Model disagrees with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $27,085.70
+  RSI: 50.17
+  MACD: 25.0832
+  EMA20: $26578.75
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: BUY → SELL ---
+Time: 2023-10-01 15:20:00
+Price: $27,063.20
+Confidence: 1.000
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR BUY → SELL SIGNAL
+Timestamp: 2023-10-01 15:20:00
+Model Prediction: 0 (DOWN)
+Confidence Score: 1.000
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-10-01 15:20      0.000 $27,063.20        1   50.2   25.109
+   2          2023-10-01 16:29     10.731 $27,063.10        0   50.2   26.982
+   3          2023-10-01 14:42     13.978 $27,070.20        0   50.2   24.084
+   4          2023-10-01 16:46     15.745 $27,066.00        0   50.2   27.423
+   5          2023-10-01 16:42     16.075 $27,057.90        0   50.2   27.322
+   6          2023-10-01 16:47     16.865 $27,069.80        0   50.2   27.448
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 1/6
+  DOWN votes: 5/6
+  Local consensus: 83.3%
+  Local expectation: DOWN
+  Model prediction: DOWN
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $27,063.20
+  RSI: 50.16
+  MACD: 25.1086
+  EMA20: $26578.78
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: SELL → BUY ---
+Time: 2023-10-01 15:27:00
+Price: $27,093.80
+Confidence: 1.000
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-10-01 15:27:00
+Model Prediction: 1 (UP)
+Confidence Score: 1.000
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-10-01 15:27      0.002 $27,093.80        1   50.2   25.299
+   2          2023-10-01 15:10      3.089 $27,094.10        0   50.2   24.838
+   3          2023-10-01 15:43      3.704 $27,094.80        1   50.2   25.711
+   4          2023-10-01 15:33      3.886 $27,095.20        1   50.2   25.462
+   5          2023-10-01 15:37      4.027 $27,095.00        1   50.2   25.572
+   6          2023-10-01 15:36      4.145 $27,094.90        1   50.2   25.545
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 5/6
+  DOWN votes: 1/6
+  Local consensus: 83.3%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $27,093.80
+  RSI: 50.17
+  MACD: 25.2987
+  EMA20: $26579.03
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+============================================================
+ANALYZING 2023-11 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_11
+Loaded from ArcticDB - Data shape: (41363, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 41,363 records for decision analysis
+ Found 75 state changes in 2023-11
+
+--- STATE CHANGE 1: SELL → BUY ---
+Time: 2023-11-03 10:15:00
+Price: $34,116.10
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-11-03 10:15:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-11-03 10:15      0.000 $34,116.10        1   50.6 1920.102
+   2          2023-11-03 10:35     14.923 $34,116.10        1   50.6 1918.948
+   3          2023-11-03 10:38     19.821 $34,124.30        1   50.6 1918.768
+   4          2023-11-03 10:39     27.862 $34,115.70        1   50.6 1918.707
+   5          2023-11-03 10:37     31.215 $34,135.50        0   50.6 1918.828
+   6          2023-11-03 10:16     31.268 $34,121.10        1   50.6 1920.042
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 5/6
+  DOWN votes: 1/6
+  Local consensus: 83.3%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $34,116.10
+  RSI: 50.61
+  MACD: 1920.1024
+  EMA20: $32230.37
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: BUY → SELL ---
+Time: 2023-11-03 10:21:00
+Price: $34,198.20
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR BUY → SELL SIGNAL
+Timestamp: 2023-11-03 10:21:00
+Model Prediction: 0 (DOWN)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-11-03 10:21      0.002 $34,198.20        0   50.6 1919.741
+   2          2023-11-03 10:41     36.579 $34,174.30        0   50.6 1918.590
+   3          2023-11-03 10:04     41.023 $34,175.00        0   50.6 1920.740
+   4          2023-11-03 10:10     45.803 $34,193.30        0   50.6 1920.399
+   5          2023-11-03 10:33     49.364 $34,166.60        0   50.6 1919.068
+   6          2023-11-03 10:06     51.486 $34,176.50        0   50.6 1920.625
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 0/6
+  DOWN votes: 6/6
+  Local consensus: 100.0%
+  Local expectation: DOWN
+  Model prediction: DOWN
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $34,198.20
+  RSI: 50.63
+  MACD: 1919.7412
+  EMA20: $32231.16
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: SELL → BUY ---
+Time: 2023-11-03 10:35:00
+Price: $34,116.10
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-11-03 10:35:00
+Model Prediction: 1 (UP)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-11-03 10:35      0.000 $34,116.10        1   50.6 1918.948
+   2          2023-11-03 10:15     14.923 $34,116.10        1   50.6 1920.102
+   3          2023-11-03 10:38     19.944 $34,124.30        1   50.6 1918.768
+   4          2023-11-03 10:37     29.407 $34,135.50        0   50.6 1918.828
+   5          2023-11-03 10:39     30.510 $34,115.70        1   50.6 1918.707
+   6          2023-11-03 10:31     36.534 $34,145.20        0   50.6 1919.184
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 4/6
+  DOWN votes: 2/6
+  Local consensus: 66.7%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $34,116.10
+  RSI: 50.61
+  MACD: 1918.9477
+  EMA20: $32233.06
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+============================================================
+ANALYZING 2023-12 STATE CHANGES
+============================================================
+Loading data for: BTCUSD_1min_2023_12
+Loaded from ArcticDB - Data shape: (41241, 25)
+Available columns: ['Unnamed: 0.1', 'Unnamed: 0', 'Open', 'High', 'Low', 'Close', 'Volume', 'ema_7d', 'ema_20d', 'ema_30d', 'sma_7d', 'sma_20d', 'sma_30d', 'macd_12_26', 'macd_sig_12_26', 'macd_hist_12_26', 'rsi_14d', 'bb_mid_20d', 'bb_upper_20d', 'bb_lower_20d', 'atr_14d', 'fd_14d', 'future_close', 'future_return', 'future_trend']
+ Loaded 41,241 records for decision analysis
+ Found 37 state changes in 2023-12
+
+--- STATE CHANGE 1: BUY → SELL ---
+Time: 2023-12-05 15:35:00
+Price: $42,275.40
+Confidence: 1.000
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR BUY → SELL SIGNAL
+Timestamp: 2023-12-05 15:35:00
+Model Prediction: 0 (DOWN)
+Confidence Score: 1.000
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-12-05 15:35      0.000 $42,275.40        0   51.0 1415.410
+   2          2023-12-05 15:49     29.242 $42,296.50        0   51.0 1417.418
+   3          2023-12-05 15:55     32.873 $42,274.90        0   51.0 1418.257
+   4          2023-12-05 15:53     35.026 $42,279.10        0   51.0 1417.977
+   5          2023-12-05 15:52     45.232 $42,256.70        0   51.0 1417.836
+   6          2023-12-05 16:10     52.390 $42,269.50        0   51.0 1420.309
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 0/6
+  DOWN votes: 6/6
+  Local consensus: 100.0%
+  Local expectation: DOWN
+  Model prediction: DOWN
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $42,275.40
+  RSI: 51.00
+  MACD: 1415.4099
+  EMA20: $37948.98
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 2: SELL → BUY ---
+Time: 2023-12-11 18:11:00
+Price: $41,000.10
+Confidence: 1.000
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR SELL → BUY SIGNAL
+Timestamp: 2023-12-11 18:11:00
+Model Prediction: 1 (UP)
+Confidence Score: 1.000
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-12-11 18:11      0.003 $41,000.10        1   50.3 2097.459
+   2          2023-12-11 18:20     57.631 $41,009.20        1   50.3 2096.081
+   3          2023-12-11 19:05     57.873 $41,018.60        1   50.3 2088.860
+   4          2023-12-11 19:04     72.194 $41,016.60        1   50.3 2089.010
+   5          2023-12-11 18:16     79.847 $40,939.90        1   50.3 2096.678
+   6          2023-12-11 19:06     80.169 $40,952.30        1   50.3 2088.705
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 6/6
+  DOWN votes: 0/6
+  Local consensus: 100.0%
+  Local expectation: UP
+  Model prediction: UP
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $41,000.10
+  RSI: 50.29
+  MACD: 2097.4589
+  EMA20: $40353.04
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+--- STATE CHANGE 3: BUY → SELL ---
+Time: 2023-12-11 18:19:00
+Price: $41,079.40
+Confidence: 0.800
+Generating predictions using pycaret model...
+Feature data shape: (1, 20)
+PyCaret prediction completed successfully
+
+ DECISION ANALYSIS FOR BUY → SELL SIGNAL
+Timestamp: 2023-12-11 18:19:00
+Model Prediction: 0 (DOWN)
+Confidence Score: 0.800
+----------------------------------------------------------------------------------------------------
+Rank       Local Neighbor Time   Distance      Price  Outcome    RSI     MACD
+----------------------------------------------------------------------------------------------------
+   1          2023-12-11 18:19      0.000 $41,079.40        0   50.3 2096.232
+   2          2023-12-11 18:08     59.710 $41,132.60        0   50.3 2097.907
+   3          2023-12-11 18:09     75.397 $41,106.10        0   50.3 2097.761
+   4          2023-12-11 18:20     95.564 $41,009.20        1   50.3 2096.081
+   5          2023-12-11 18:10     96.607 $41,038.80        1   50.3 2097.611
+   6          2023-12-11 18:07    102.622 $41,095.60        0   50.3 2098.051
+
+ LOCAL NEIGHBOR CONSENSUS (within this month):
+  UP votes: 2/6
+  DOWN votes: 4/6
+  Local consensus: 66.7%
+  Local expectation: DOWN
+  Model prediction: DOWN
+   Model aligns with local patterns
+
+ SIGNAL CONDITIONS:
+  Price: $41,079.40
+  RSI: 50.30
+  MACD: 2096.2323
+  EMA20: $40353.39
+   RSI in neutral zone
+--------------------------------------------------------------------------------
+
+ Completed 30/36 decision analyses successfully
+
+ ENHANCED DECISION ANALYSIS INSIGHTS:
+1. **Local Patterns**: Analysis uses neighbors from the SAME month for context
+2. **Model vs Local**: Compare model prediction with local historical patterns
+3. **Technical Context**: RSI, MACD conditions at signal generation time
+4. **Distance Analysis**: Closer neighbors indicate more similar market conditions
+5. **Consensus Strength**: Agreement level among local historical patterns
+
+ This analysis shows WHY the model generated each state change signal
+by examining similar conditions within the same month.
+================================================================================
