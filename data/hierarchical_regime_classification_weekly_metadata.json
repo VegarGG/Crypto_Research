@@ -1,0 +1,16 @@
+{
+  "method": "hierarchical",
+  "approach": "weekly",
+  "classification_timeframe": "weekly_bars",
+  "applied_to": "1min_bars",
+  "description": "Regime classification based on weekly timeframe, applied to all 1-minute bars within each week period",
+  "regime_distribution": {
+    "Bear (0)": "72,947 (16.8%)",
+    "Sideways (1)": "264,402 (60.9%)",
+    "Bull (2)": "97,089 (22.3%)"
+  },
+  "average_regime_duration_hours": 402.2564814814815,
+  "total_regime_changes": 18,
+  "data_range": "2023-02-10 00:00:00 to 2023-12-31 14:27:00",
+  "created_at": "2025-10-01T18:32:58.886111"
+}

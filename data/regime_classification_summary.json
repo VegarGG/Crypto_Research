@@ -1,0 +1,11 @@
+{
+  "method": "price_trend",
+  "description": "Bull: Price > SMA50 > SMA200, Bear: Price < SMA50 < SMA200, Sideways: Everything else",
+  "regime_distribution": {
+    "Bear (0)": "115,970 (26.7%)",
+    "Sideways (1)": "194,460 (44.8%)",
+    "Bull (2)": "124,008 (28.5%)"
+  },
+  "total_valid_periods": "434438",
+  "data_range": "2023-02-10 03:19:00 to 2023-12-31 14:27:00"
+}

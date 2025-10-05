@@ -1,0 +1,110 @@
+{
+  "method": "enhanced_hierarchical",
+  "optimal_timeframe": "1D",
+  "optimal_method": "momentum",
+  "selection_criteria": {
+    "has_all_regimes": true,
+    "balance_score": 7.606087982722225e-06,
+    "stability_score": 2,
+    "total_score": 8.420015212175965
+  },
+  "timeframes_tested": [
+    "1H",
+    "6H",
+    "12H",
+    "1D",
+    "1W"
+  ],
+  "methods_tested": [
+    "trend",
+    "momentum",
+    "volatility"
+  ],
+  "regime_distribution": {
+    "Bear (0)": "74,605 (17.2%)",
+    "Sideways (1)": "296,485 (68.2%)",
+    "Bull (2)": "63,348 (14.6%)"
+  },
+  "performance_metrics": {
+    "average_regime_duration_hours": 101.98075117370892,
+    "total_regime_changes": "71",
+    "stability_score": 2
+  },
+  "data_info": {
+    "total_records": 434438,
+    "data_range": "2023-02-10 00:00:00 to 2023-12-31 14:27:00",
+    "created_at": "2025-10-01T18:46:46.690863"
+  },
+  "all_timeframe_scores": {
+    "1H": {
+      "has_all_regimes": true,
+      "balance_score": 6.590832861403086e-06,
+      "stability_score": 0.19302178858320893,
+      "change_score": 2,
+      "total_score": 5.38605675883214,
+      "avg_duration_hours": 4.632522925997014,
+      "total_changes": "1563",
+      "regime_counts": {
+        "1": 317698,
+        "2": 82935,
+        "0": 33805
+      }
+    },
+    "6H": {
+      "has_all_regimes": true,
+      "balance_score": 7.57791559073866e-06,
+      "stability_score": 0.7637798874824191,
+      "change_score": 2,
+      "total_score": 6.527574930796019,
+      "avg_duration_hours": 18.33071729957806,
+      "total_changes": "395",
+      "regime_counts": {
+        "1": 294764,
+        "2": 93284,
+        "0": 46390
+      }
+    },
+    "12H": {
+      "has_all_regimes": true,
+      "balance_score": 7.1524644882422875e-06,
+      "stability_score": 1.5713179976851854,
+      "change_score": 2,
+      "total_score": 8.142650300299348,
+      "avg_duration_hours": 37.71163194444445,
+      "total_changes": "192",
+      "regime_counts": {
+        "1": 304087,
+        "2": 87998,
+        "0": 42353
+      }
+    },
+    "1D": {
+      "has_all_regimes": true,
+      "balance_score": 7.606087982722225e-06,
+      "stability_score": 2,
+      "change_score": 1.42,
+      "total_score": 8.420015212175965,
+      "avg_duration_hours": 101.98075117370892,
+      "total_changes": "71",
+      "regime_counts": {
+        "1": 296485,
+        "0": 74605,
+        "2": 63348
+      }
+    },
+    "1W": {
+      "has_all_regimes": true,
+      "balance_score": 7.122844131092777e-06,
+      "stability_score": 2,
+      "change_score": 0.24,
+      "total_score": 7.240014245688263,
+      "avg_duration_hours": 603.3861111111111,
+      "total_changes": "12",
+      "regime_counts": {
+        "1": 294578,
+        "2": 123668,
+        "0": 16192
+      }
+    }
+  }
+}
