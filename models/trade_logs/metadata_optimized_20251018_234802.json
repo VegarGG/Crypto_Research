@@ -1,0 +1,10 @@
+{
+  "timestamp": "20251018_234802",
+  "strategy": "Optimized Hybrid ML - No Confidence Filter, No Min Hold",
+  "stop_loss": 0.04,
+  "commission": 0.0075,
+  "period": {
+    "start": "2023-09-28 14:21:00",
+    "end": "2023-12-31 14:27:00"
+  }
+}
