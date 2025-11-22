@@ -170,7 +170,100 @@ class MomentumIndicatorPipeline:
         )
         df[f"stoch_k_{days}d"] = stoch.stoch()
         df[f"stoch_d_{days}d"] = stoch.stoch_signal()
+        df[f"stoch_k_{days}d"] = stoch.stoch()
+        df[f"stoch_d_{days}d"] = stoch.stoch_signal()
         return df
+
+        return df
+
+        return df
+
+    def compute_dynamic_rsi_parallel(self, df, rsi_col, window_days=30, minute_data=True, chunk_size=None):
+        window = window_days * 1440 if minute_data else window_days
+        
+        if chunk_size is None:
+            chunk_size = max(10000, len(df) // self.max_workers)
+            
+        if len(df) < window or len(df) < chunk_size:
+            return self.compute_dynamic_rsi_regime_sequential(df, rsi_col, window_days, minute_data)
+            
+        # Create overlapping chunks
+        chunks = []
+        overlap = window - 1
+        
+        for i in range(0, len(df), chunk_size):
+            start_idx = max(0, i - overlap)
+            end_idx = min(len(df), i + chunk_size + overlap)
+            chunk_df = df.iloc[start_idx:end_idx].copy()
+            chunks.append((chunk_df, rsi_col, window, start_idx))
+            
+        print(f"[INFO] Processing Dynamic RSI in parallel with {len(chunks)} chunks...")
+        
+        # Process chunks
+        with ProcessPoolExecutor(max_workers=self.max_workers) as executor:
+            results = list(executor.map(parallel_rsi_worker, chunks))
+            
+        # Combine results
+        q70_full = np.full(len(df), np.nan)
+        q30_full = np.full(len(df), np.nan)
+        
+        for chunk_start_idx, q70_chunk, q30_chunk in results:
+            chunk_end_idx = min(len(df), chunk_start_idx + len(q70_chunk))
+            
+            if chunk_start_idx == 0:
+                q70_full[chunk_start_idx:chunk_end_idx] = q70_chunk[:chunk_end_idx-chunk_start_idx]
+                q30_full[chunk_start_idx:chunk_end_idx] = q30_chunk[:chunk_end_idx-chunk_start_idx]
+            else:
+                skip_overlap = overlap if chunk_start_idx > 0 else 0
+                valid_start = chunk_start_idx + skip_overlap
+                valid_chunk_start = skip_overlap
+                
+                if valid_start < len(df):
+                    len_to_copy = chunk_end_idx - valid_start
+                    q70_full[valid_start:chunk_end_idx] = q70_chunk[valid_chunk_start:valid_chunk_start+len_to_copy]
+                    q30_full[valid_start:chunk_end_idx] = q30_chunk[valid_chunk_start:valid_chunk_start+len_to_copy]
+
+        df[f"{rsi_col}_q70"] = q70_full
+        df[f"{rsi_col}_q30"] = q30_full
+        
+        # Define regimes
+        df[f"{rsi_col}_regime"] = 0
+        df.loc[df[rsi_col] > df[f"{rsi_col}_q70"], f"{rsi_col}_regime"] = 1
+        df.loc[df[rsi_col] < df[f"{rsi_col}_q30"], f"{rsi_col}_regime"] = -1
+        
+        return df
+
+    def compute_dynamic_rsi_regime_sequential(self, df, rsi_col, window_days=30, minute_data=True):
+        """Sequential version using Numba"""
+        window = window_days * 1440 if minute_data else window_days
+        rsi_values = df[rsi_col].values
+        
+        print(f"[INFO] Calculating Dynamic RSI thresholds (Sequential, Window: {window})...")
+        q70 = rolling_quantile_numba(rsi_values, window, 0.70)
+        q30 = rolling_quantile_numba(rsi_values, window, 0.30)
+        
+        df[f"{rsi_col}_q70"] = q70
+        df[f"{rsi_col}_q30"] = q30
+        
+        df[f"{rsi_col}_regime"] = 0
+        df.loc[df[rsi_col] > df[f"{rsi_col}_q70"], f"{rsi_col}_regime"] = 1
+        df.loc[df[rsi_col] < df[f"{rsi_col}_q30"], f"{rsi_col}_regime"] = -1
+        
+        return df
+
+    def compute_dynamic_rsi_regime(self, df, rsi_col, window_days=30, minute_data=True):
+        """
+        Calculates dynamic RSI regimes. Dispatches to parallel or sequential based on size.
+        """
+        # Use parallel if data is large enough
+        if len(df) > 20000 and self.max_workers > 1:
+            try:
+                return self.compute_dynamic_rsi_parallel(df, rsi_col, window_days, minute_data)
+            except Exception as e:
+                print(f"[WARNING] Parallel RSI failed: {e}. Falling back to sequential.")
+                return self.compute_dynamic_rsi_regime_sequential(df, rsi_col, window_days, minute_data)
+        else:
+            return self.compute_dynamic_rsi_regime_sequential(df, rsi_col, window_days, minute_data)
 
     def compute_macd(
         self, df, fast_days=12, slow_days=26, signal_days=9, minute_data=True
@@ -248,6 +341,12 @@ class MomentumIndicatorPipeline:
         for w in stoch_windows:
             df = self.compute_stochastic(df, days=w)
         df = self.compute_macd(df, *macd_params)
+        
+        # Compute Dynamic RSI Regimes for the first RSI window
+        if rsi_windows:
+            rsi_col = f"rsi_{rsi_windows[0]}d"
+            # Use 30-day window for regime context
+            df = self.compute_dynamic_rsi_regime(df, rsi_col, window_days=30)
 
         # Save to ArcticDB
         self.library.write(symbol, df)
@@ -261,6 +360,70 @@ class MomentumIndicatorPipeline:
             macd_days=macd_params,
         )
 
+        return df
+
+
+# Time-Series Decomposition Pipeline
+class TimeSeriesFeaturesPipeline:
+    def __init__(self, lib_name="timeseries_features", store_path=None):
+        if store_path is None:
+            store_path = ARCTIC_URI
+        self.arctic = Arctic(store_path)
+        if lib_name not in self.arctic.list_libraries():
+            self.arctic.create_library(lib_name)
+        self.library = self.arctic[lib_name]
+
+    def compute_trend_residual(self, df, days=1, minute_data=True):
+        """
+        Decomposes price into Trend and Residual using a simple Moving Average.
+        Trend = SMA(window)
+        Residual = Close / Trend (Ratio) or Close - Trend (Diff)
+        """
+        window = days * 1440 if minute_data else days
+        
+        # Trend (SMA)
+        df[f"trend_sma_{days}d"] = df["Close"].rolling(window=window).mean()
+        
+        # Residual (Ratio - better for normalization)
+        df[f"residual_ratio_{days}d"] = df["Close"] / df[f"trend_sma_{days}d"]
+        
+        # Residual (Diff)
+        df[f"residual_diff_{days}d"] = df["Close"] - df[f"trend_sma_{days}d"]
+        
+        return df
+
+    def compute_volatility_regime(self, df, days=7, minute_data=True):
+        """
+        Calculates volatility regime based on ATR relative to its history.
+        """
+        window = days * 1440 if minute_data else days
+        
+        # Calculate ATR if not present (simplified here or assume present)
+        # Let's calculate a simple rolling std dev of returns as proxy if ATR not passed
+        if "log_ret" not in df.columns:
+            df["log_ret"] = np.log(df["Close"] / df["Close"].shift(1))
+            
+        df[f"volatility_{days}d"] = df["log_ret"].rolling(window=window).std()
+        
+        # Compare current volatility to long-term average (4x window)
+        long_window = window * 4
+        df[f"volatility_mean_{days}d"] = df[f"volatility_{days}d"].rolling(window=long_window).mean()
+        
+        df[f"volatility_ratio_{days}d"] = df[f"volatility_{days}d"] / df[f"volatility_mean_{days}d"]
+        
+        return df
+
+    def run(self, df, symbol: str, trend_days=[1, 7], vol_days=[7]):
+        df = df.copy()
+        
+        for d in trend_days:
+            df = self.compute_trend_residual(df, days=d)
+            
+        for d in vol_days:
+            df = self.compute_volatility_regime(df, days=d)
+            
+        self.library.write(symbol, df)
+        print(f"[INFO] Written time-series features for {symbol} to ArcticDB")
         return df
 
 
@@ -445,6 +608,28 @@ if NUMBA_AVAILABLE:
         lower_bands = mean_price - deviations
         
         return count_crossings_numba(prices, lower_bands, upper_bands)
+
+    @jit(nopython=True, fastmath=True, cache=True)
+    def rolling_quantile_numba(arr, window, quantile):
+        n = len(arr)
+        result = np.full(n, np.nan)
+        
+        # For each position
+        for i in range(n):
+            if i >= window - 1:
+                # Extract window
+                window_arr = arr[i - window + 1 : i + 1].copy()
+                # Sort window to find quantile
+                # Note: np.quantile is not fully supported in all numba versions in nopython mode
+                # so we use sorting
+                window_arr.sort()
+                
+                # Calculate index
+                idx = int(round(quantile * (window - 1)))
+                idx = min(max(idx, 0), window - 1)
+                result[i] = window_arr[idx]
+                
+        return result
 else:
     # Fallback non-JIT versions
     def count_crossings_numba(prices, lower_bands, upper_bands):
@@ -472,6 +657,10 @@ else:
         
         return count_crossings_numba(prices, lower_bands, upper_bands)
 
+    def rolling_quantile_numba(arr, window, quantile):
+        # Fallback non-JIT version using pandas
+        return pd.Series(arr).rolling(window=window).quantile(quantile).values
+
 def parallel_fd_worker(chunk_data):
     chunk_df, window_size, chunk_start_idx = chunk_data
     chunk_df = chunk_df.copy()
@@ -488,6 +677,17 @@ def parallel_fd_worker(chunk_data):
         fd_values.append(fd_val)
     
     return chunk_start_idx, np.array(fd_values)
+
+def parallel_rsi_worker(chunk_data):
+    chunk_df, rsi_col, window, chunk_start_idx = chunk_data
+    # Ensure we have the data
+    rsi_values = chunk_df[rsi_col].values
+    
+    # Calculate quantiles using Numba optimized function
+    q70 = rolling_quantile_numba(rsi_values, window, 0.70)
+    q30 = rolling_quantile_numba(rsi_values, window, 0.30)
+    
+    return chunk_start_idx, q70, q30
 
 # Fractal Dimension Indicator Pipeline
 class FractalDimensionPipeline:
