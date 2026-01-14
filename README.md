@@ -300,6 +300,6 @@ MIT License - See LICENSE file for details
 
 ---
 
-**Last Updated**: November 2023
+**Last Updated**: November 2024
 **Project Status**: Active Research
 **Latest Notebook**: [strategy/hybrid_rule_ml_regression_strategy_2.ipynb](strategy/hybrid_rule_ml_regression_strategy_2.ipynb)
